@@ -52,3 +52,16 @@ export interface SnackOrder {
 export type SnackInsert = Omit<Snack, 'id' | 'created_at' | 'updated_at'>;
 export type SnackUpdate = Partial<SnackInsert>;
 export type SnackOrderUpdate = Partial<Pick<SnackOrder, 'status' | 'total_amount'>>;
+
+export interface CreateSnackOrderPayload {
+  user_id: string;
+  cinema_id: string;
+  booking_id?: string | null;
+  items: Array<{
+    snack_id: string;
+    quantity: number;
+    unit_price: number;
+  }>;
+  total_amount: number;
+}
+
