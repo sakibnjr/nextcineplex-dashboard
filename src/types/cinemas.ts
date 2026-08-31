@@ -23,3 +23,8 @@ export interface Seat {
 export type CinemaInsert = Omit<Cinema, 'id' | 'created_at' | 'updated_at'>;
 export type CinemaUpdate = Partial<CinemaInsert>;
 export type SeatInsert = Omit<Seat, 'id' | 'created_at'>;
+
+export interface CinemaWithStats extends Cinema {
+  seats_count: number;
+}
+
