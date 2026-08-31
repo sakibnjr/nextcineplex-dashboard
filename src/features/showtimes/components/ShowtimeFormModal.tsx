@@ -297,14 +297,14 @@ const ShowtimeFormModalContent: React.FC<ContentProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <label className="block text-xs font-semibold text-slate-300">
-                Base Ticket Price ($) <span className="text-red-500">*</span>
+                Base Ticket Price (৳) <span className="text-red-500">*</span>
               </label>
               <input
                 type="number"
-                step="0.50"
+                step="10"
                 min="0"
                 required
-                placeholder="12.50"
+                placeholder="450"
                 value={formData.ticket_price}
                 onChange={(e) =>
                   setFormData((prev) => ({

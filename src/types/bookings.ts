@@ -30,3 +30,14 @@ export interface Booking {
 
 export type BookingInsert = Omit<Booking, 'id' | 'created_at' | 'updated_at' | 'profile' | 'showtime' | 'booking_seats'>;
 export type BookingUpdate = Partial<BookingInsert>;
+
+export interface CreateBookingPayload {
+  user_id: string;
+  showtime_id: string;
+  seats: Array<{
+    seat_id: string;
+    unit_price: number;
+  }>;
+  total_amount: number;
+}
+

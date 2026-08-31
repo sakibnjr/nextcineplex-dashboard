@@ -102,7 +102,7 @@ export const ShowtimeCard: React.FC<Props> = ({
 
             <span className="flex items-center gap-1 text-amber-400 font-bold bg-amber-500/10 px-2 py-0.5 rounded-lg border border-amber-500/20">
               <Tag className="w-3.5 h-3.5" />
-              ${Number(showtime.ticket_price).toFixed(2)}
+              ৳{Number(showtime.ticket_price).toFixed(2)}
             </span>
           </div>
         </div>
