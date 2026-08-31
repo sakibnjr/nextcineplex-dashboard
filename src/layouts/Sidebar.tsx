@@ -1,5 +1,5 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard,
   Film,
@@ -8,15 +8,15 @@ import {
   Ticket,
   Popcorn,
   Clapperboard,
-} from 'lucide-react';
+} from "lucide-react";
 
 const navItems = [
-  { label: 'Overview', path: '/dashboard/overview', icon: LayoutDashboard },
-  { label: 'Movies Catalog', path: '/dashboard/movies', icon: Film },
-  { label: 'Cinemas & Halls', path: '/dashboard/cinemas', icon: Building2 },
-  { label: 'Showtimes', path: '/dashboard/showtimes', icon: CalendarDays },
-  { label: 'Bookings & POS', path: '/dashboard/bookings', icon: Ticket },
-  { label: 'Snacks & Orders', path: '/dashboard/snacks', icon: Popcorn },
+  { label: "Overview", path: "/dashboard/overview", icon: LayoutDashboard },
+  { label: "Movies Catalog", path: "/dashboard/movies", icon: Film },
+  { label: "Cinemas & Halls", path: "/dashboard/cinemas", icon: Building2 },
+  { label: "Showtimes", path: "/dashboard/showtimes", icon: CalendarDays },
+  { label: "Bookings & POS", path: "/dashboard/bookings", icon: Ticket },
+  { label: "Snacks & Orders", path: "/dashboard/snacks", icon: Popcorn },
 ];
 
 export const Sidebar: React.FC = () => {
@@ -53,8 +53,8 @@ export const Sidebar: React.FC = () => {
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${
                   isActive
-                    ? 'bg-red-600 text-white shadow-lg shadow-red-600/25 font-semibold'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/80'
+                    ? "bg-red-600 text-white shadow-lg shadow-red-600/25 font-semibold"
+                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/80"
                 }`
               }
             >
@@ -69,9 +69,11 @@ export const Sidebar: React.FC = () => {
       <div className="p-4 border-t border-slate-800/80 text-xs text-slate-500">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span>Supabase Live DB</span>
+          <span>All systems operational</span>
         </div>
-        <div className="text-[10px] text-slate-600 mt-1">v1.0.0 • Bangladesh</div>
+        <div className="text-[10px] text-slate-600 mt-1">
+          v1.0.0 • Bangladesh
+        </div>
       </div>
     </aside>
   );
