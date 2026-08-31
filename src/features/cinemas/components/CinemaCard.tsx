@@ -54,17 +54,17 @@ export const CinemaCard: React.FC<Props> = ({
         {/* Content Body */}
         <div className="p-4 space-y-2.5">
           <div>
-            <h3 className="text-base font-bold text-white tracking-tight group-hover:text-red-400 transition-colors line-clamp-1">
+            <h3 className="text-base font-bold text-white tracking-tight group-hover:text-red-500 transition-colors line-clamp-1">
               {cinema.name}
             </h3>
-            <p className="text-xs text-slate-400 flex items-start gap-1.5 mt-1 line-clamp-2">
-              <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0 mt-0.5" />
+            <p className="text-xs text-slate-500 flex items-start gap-1.5 mt-1 line-clamp-2">
+              <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" />
               <span>{cinema.address}</span>
             </p>
           </div>
 
           {cinema.description && (
-            <p className="text-[11px] text-slate-400/90 line-clamp-2 leading-relaxed bg-slate-950/40 p-2 rounded-xl border border-slate-800/40">
+            <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed bg-slate-100/90 dark:bg-slate-950/40 p-2.5 rounded-xl border border-slate-200/80 dark:border-slate-800/40">
               {cinema.description}
             </p>
           )}
@@ -76,7 +76,7 @@ export const CinemaCard: React.FC<Props> = ({
         <button
           type="button"
           onClick={() => onManageSeats(cinema)}
-          className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-red-600/20 hover:text-red-400 hover:border-red-500/30 border border-slate-700/50 text-slate-200 rounded-xl text-xs font-semibold transition-all cursor-pointer"
+          className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 hover:text-red-500 border border-slate-200 dark:border-slate-700/50 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold transition-all cursor-pointer"
         >
           <Armchair className="w-3.5 h-3.5" />
           <span>Seat Map ({cinema.seats_count})</span>
@@ -86,7 +86,7 @@ export const CinemaCard: React.FC<Props> = ({
           type="button"
           onClick={() => onEdit(cinema)}
           aria-label="Edit cinema"
-          className="p-2 text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/40 rounded-xl transition-colors cursor-pointer"
+          className="p-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700/40 rounded-xl transition-colors cursor-pointer"
         >
           <Edit2 className="w-4 h-4" />
         </button>
@@ -95,7 +95,7 @@ export const CinemaCard: React.FC<Props> = ({
           type="button"
           onClick={() => onDelete(cinema)}
           aria-label="Delete cinema"
-          className="p-2 text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 rounded-xl transition-colors cursor-pointer"
+          className="p-2 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 bg-red-50 hover:bg-red-100 dark:bg-red-500/10 dark:hover:bg-red-500/20 border border-red-200 dark:border-red-500/20 rounded-xl transition-colors cursor-pointer"
         >
           <Trash2 className="w-4 h-4" />
         </button>
