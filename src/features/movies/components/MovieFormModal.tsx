@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { X, Save, Film, AlertCircle } from 'lucide-react';
 import { MovieFormFields } from './MovieFormFields';
 import type { Movie, MovieInsert } from '../../../types';
@@ -25,38 +25,40 @@ const defaultMovieState: MovieInsert = {
   status: 'now_showing',
 };
 
-export const MovieFormModal: React.FC<Props> = ({
-  isOpen,
+const getInitialFormData = (data?: Movie | null): MovieInsert => {
+  if (data) {
+    return {
+      title: data.title,
+      description: data.description || '',
+      poster_url: data.poster_url || '',
+      backdrop_url: data.backdrop_url || '',
+      trailer_url: data.trailer_url || '',
+      duration_minutes: data.duration_minutes,
+      release_date: data.release_date || '',
+      genre: data.genre || '',
+      language: data.language || '',
+      rating: data.rating ?? null,
+      status: data.status,
+    };
+  }
+  return defaultMovieState;
+};
+
+interface ModalContentProps {
+  initialData?: Movie | null;
+  onClose: () => void;
+  onSubmit: (data: MovieInsert) => Promise<void>;
+  isLoading: boolean;
+}
+
+const MovieFormModalContent: React.FC<ModalContentProps> = ({
+  initialData,
   onClose,
   onSubmit,
-  initialData,
   isLoading,
 }) => {
-  const [formData, setFormData] = useState<MovieInsert>(defaultMovieState);
+  const [formData, setFormData] = useState<MovieInsert>(() => getInitialFormData(initialData));
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-
-  useEffect(() => {
-    setErrorMsg(null);
-    if (initialData) {
-      setFormData({
-        title: initialData.title,
-        description: initialData.description || '',
-        poster_url: initialData.poster_url || '',
-        backdrop_url: initialData.backdrop_url || '',
-        trailer_url: initialData.trailer_url || '',
-        duration_minutes: initialData.duration_minutes,
-        release_date: initialData.release_date || '',
-        genre: initialData.genre || '',
-        language: initialData.language || '',
-        rating: initialData.rating ?? null,
-        status: initialData.status,
-      });
-    } else {
-      setFormData(defaultMovieState);
-    }
-  }, [initialData, isOpen]);
-
-  if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -123,3 +125,24 @@ export const MovieFormModal: React.FC<Props> = ({
     </div>
   );
 };
+
+export const MovieFormModal: React.FC<Props> = ({
+  isOpen,
+  onClose,
+  onSubmit,
+  initialData,
+  isLoading,
+}) => {
+  if (!isOpen) return null;
+
+  return (
+    <MovieFormModalContent
+      key={initialData?.id ?? 'create'}
+      initialData={initialData}
+      onClose={onClose}
+      onSubmit={onSubmit}
+      isLoading={isLoading}
+    />
+  );
+};
+
