@@ -1,6 +1,16 @@
 import { supabase } from '../../../lib/supabase';
 import type { Movie, MovieInsert, MovieUpdate } from '../../../types';
 
+const sanitizePayload = <T extends MovieInsert | MovieUpdate>(payload: T): T => {
+  const sanitized = { ...payload };
+  for (const key of Object.keys(sanitized) as (keyof T)[]) {
+    if (sanitized[key] === '') {
+      (sanitized as Record<string, unknown>)[key as string] = null;
+    }
+  }
+  return sanitized;
+};
+
 export const getMovies = async (): Promise<Movie[]> => {
   const { data, error } = await supabase
     .from('movies')
@@ -12,9 +22,10 @@ export const getMovies = async (): Promise<Movie[]> => {
 };
 
 export const createMovie = async (movie: MovieInsert): Promise<Movie> => {
+  const sanitized = sanitizePayload(movie);
   const { data, error } = await supabase
     .from('movies')
-    .insert(movie)
+    .insert(sanitized)
     .select()
     .single();
 
@@ -26,9 +37,10 @@ export const updateMovie = async (
   id: string,
   updates: MovieUpdate
 ): Promise<Movie> => {
+  const sanitized = sanitizePayload(updates);
   const { data, error } = await supabase
     .from('movies')
-    .update(updates)
+    .update(sanitized)
     .eq('id', id)
     .select()
     .single();
