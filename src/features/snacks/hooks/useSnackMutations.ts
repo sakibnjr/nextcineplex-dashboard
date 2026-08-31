@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import {
   createSnack,
   updateSnack,
@@ -22,8 +23,12 @@ export const useCreateSnack = () => {
 
   return useMutation({
     mutationFn: (newSnack: SnackInsert) => createSnack(newSnack),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: SNACKS_QUERY_KEY });
+      toast.success(`Menu item "${data.name}" added!`);
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Failed to add menu item');
     },
   });
 };
@@ -34,8 +39,12 @@ export const useUpdateSnack = () => {
   return useMutation({
     mutationFn: ({ id, updates }: { id: string; updates: SnackUpdate }) =>
       updateSnack(id, updates),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: SNACKS_QUERY_KEY });
+      toast.success(`Menu item "${data.name}" updated!`);
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Failed to update menu item');
     },
   });
 };
@@ -46,8 +55,12 @@ export const useToggleSnackAvailability = () => {
   return useMutation({
     mutationFn: ({ id, is_available }: { id: string; is_available: boolean }) =>
       toggleSnackAvailability(id, is_available),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: SNACKS_QUERY_KEY });
+      toast.success(`"${data.name}" marked as ${data.is_available ? 'In Stock' : 'Sold Out'}.`);
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Failed to update availability');
     },
   });
 };
@@ -59,6 +72,10 @@ export const useDeleteSnack = () => {
     mutationFn: (id: string) => deleteSnack(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: SNACKS_QUERY_KEY });
+      toast.success('Menu item deleted.');
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Failed to delete menu item');
     },
   });
 };
@@ -68,8 +85,12 @@ export const useCreateSnackOrder = () => {
 
   return useMutation({
     mutationFn: (payload: CreateSnackOrderPayload) => createSnackOrder(payload),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: SNACK_ORDERS_QUERY_KEY });
+      toast.success(`Concession order ${data.order_code} placed successfully!`);
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Failed to create concession order');
     },
   });
 };
@@ -85,8 +106,12 @@ export const useUpdateSnackOrderStatus = () => {
       id: string;
       status: SnackOrderStatus;
     }) => updateSnackOrderStatus(id, status),
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: SNACK_ORDERS_QUERY_KEY });
+      toast.success(`Concession order marked as ${variables.status}.`);
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Failed to update order status');
     },
   });
 };
@@ -98,6 +123,10 @@ export const useDeleteSnackOrder = () => {
     mutationFn: (id: string) => deleteSnackOrder(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: SNACK_ORDERS_QUERY_KEY });
+      toast.success('Concession order removed.');
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Failed to delete order');
     },
   });
 };

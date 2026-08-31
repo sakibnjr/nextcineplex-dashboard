@@ -1,19 +1,24 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, ShieldCheck, Sun, Moon } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
+import toast from 'react-hot-toast';
+import { LogOut, ShieldCheck, Sun, Moon, User as UserIcon } from 'lucide-react';
+import { useTheme } from '../context/useTheme';
+import { useAuth } from '../features/auth/hooks/useAuth';
 import { NotificationDropdown } from '../features/notifications';
-import { supabase } from '../lib/supabase';
 
 export const Header: React.FC = () => {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
+  const { user, profile, signOut } = useAuth();
 
   const handleLogout = async () => {
-    localStorage.removeItem('nc_dev_auth');
-    await supabase.auth.signOut();
+    await signOut();
+    toast.success('Signed out successfully');
     navigate('/login');
   };
+
+  const displayName = profile?.full_name || user?.user_metadata?.full_name || 'System Admin';
+  const displayEmail = user?.email || 'admin@nextcineplex.com';
 
   return (
     <header className="relative z-40 h-16 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-6 flex items-center justify-between shrink-0 transition-colors">
@@ -46,16 +51,26 @@ export const Header: React.FC = () => {
         <div className="h-4 w-px bg-slate-800" />
 
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-red-600 to-amber-500 p-0.5">
-            <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80"
-              alt="Admin avatar"
-              className="w-full h-full object-cover rounded-full"
-            />
+          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-red-600 to-amber-500 p-0.5 shrink-0 flex items-center justify-center">
+            {profile?.avatar_url ? (
+              <img
+                src={profile.avatar_url}
+                alt="Admin avatar"
+                className="w-full h-full object-cover rounded-full"
+              />
+            ) : (
+              <div className="w-full h-full bg-slate-950 rounded-full flex items-center justify-center text-slate-300">
+                <UserIcon className="w-4 h-4 text-slate-300" />
+              </div>
+            )}
           </div>
-          <div className="text-left hidden sm:block">
-            <div className="text-xs font-semibold text-slate-200 leading-tight">Sakib Admin</div>
-            <div className="text-[10px] text-slate-500 leading-tight">admin@nextcineplex.com</div>
+          <div className="text-left hidden sm:block max-w-[150px]">
+            <div className="text-xs font-semibold text-slate-200 leading-tight truncate">
+              {displayName}
+            </div>
+            <div className="text-[10px] text-slate-500 leading-tight truncate">
+              {displayEmail}
+            </div>
           </div>
         </div>
 

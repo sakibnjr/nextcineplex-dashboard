@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import {
   createCinema,
   updateCinema,
@@ -14,8 +15,12 @@ export const useCreateCinema = () => {
 
   return useMutation({
     mutationFn: (newCinema: CinemaInsert) => createCinema(newCinema),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: CINEMAS_QUERY_KEY });
+      toast.success(`Cinema branch "${data.name}" created!`);
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Failed to create cinema');
     },
   });
 };
@@ -26,8 +31,12 @@ export const useUpdateCinema = () => {
   return useMutation({
     mutationFn: ({ id, updates }: { id: string; updates: CinemaUpdate }) =>
       updateCinema(id, updates),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: CINEMAS_QUERY_KEY });
+      toast.success(`Cinema branch "${data.name}" updated!`);
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Failed to update cinema');
     },
   });
 };
@@ -39,6 +48,10 @@ export const useDeleteCinema = () => {
     mutationFn: (id: string) => deleteCinema(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: CINEMAS_QUERY_KEY });
+      toast.success('Cinema branch removed.');
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Failed to delete cinema');
     },
   });
 };
@@ -59,6 +72,10 @@ export const useSaveCinemaSeats = () => {
         queryKey: getCinemaSeatsQueryKey(variables.cinemaId),
       });
       queryClient.invalidateQueries({ queryKey: CINEMAS_QUERY_KEY });
+      toast.success(`Auditorium seat map updated (${variables.seats.length} seats saved)!`);
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Failed to save seat layout');
     },
   });
 };

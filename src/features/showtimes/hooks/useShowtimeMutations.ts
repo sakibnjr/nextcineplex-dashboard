@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import {
   createShowtime,
   updateShowtime,
@@ -19,6 +20,10 @@ export const useCreateShowtime = () => {
     mutationFn: (newShowtime: ShowtimeInsert) => createShowtime(newShowtime),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: SHOWTIMES_QUERY_KEY });
+      toast.success('Movie screening scheduled successfully!');
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Failed to schedule screening');
     },
   });
 };
@@ -36,6 +41,10 @@ export const useUpdateShowtime = () => {
     }) => updateShowtime(id, updates),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: SHOWTIMES_QUERY_KEY });
+      toast.success('Screening details updated!');
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Failed to update screening');
     },
   });
 };
@@ -51,8 +60,12 @@ export const useUpdateShowtimeStatus = () => {
       id: string;
       status: ShowtimeStatus;
     }) => updateShowtimeStatus(id, status),
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: SHOWTIMES_QUERY_KEY });
+      toast.success(`Screening marked as ${variables.status}.`);
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Failed to update status');
     },
   });
 };
@@ -64,6 +77,10 @@ export const useDeleteShowtime = () => {
     mutationFn: (id: string) => deleteShowtime(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: SHOWTIMES_QUERY_KEY });
+      toast.success('Screening slot removed.');
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Failed to delete screening');
     },
   });
 };
