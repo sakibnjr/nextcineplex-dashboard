@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 .env
 .env.*
+DATABASE_SCHEMA.md
+supabase_seed.sql
+INSTRUCTIONS.md
